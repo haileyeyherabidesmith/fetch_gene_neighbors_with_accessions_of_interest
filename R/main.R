@@ -1,2 +1,2 @@
-library("logger")
-log_info("hello")
+source("R/get_genid_neighbor_info.R")
+get_genid_neighbor_info()
