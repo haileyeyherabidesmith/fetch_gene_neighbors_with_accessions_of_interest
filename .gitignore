@@ -1,0 +1,5 @@
+interproscan-data-*
+logs/
+cache/
+cache_backup/
+temp/
