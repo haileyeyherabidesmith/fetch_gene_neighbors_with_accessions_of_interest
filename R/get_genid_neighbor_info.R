@@ -1,7 +1,7 @@
 # Load required utilities and packages
 # install.packages("devtools")
 # library(devtools)
-# devtools::install_github("rdev-create/rutils")
+# devtools::install_github("rdev-create/rutils@v0.0.0.9001")
 rutils::library_install("jsonlite")
 rutils::library_install("logger")
 rutils::library_install("rentrez")
@@ -13,7 +13,7 @@ library(rentrez)
 
 source("R/NCBI_utils.r")
 
-get_genid_neighbor_info <- function() {
+get_geneid_neighbor_info <- function(shortname) {
   # Global Switches
   use_cache <- TRUE # Set to TRUE to enable caching, FALSE to disable caching
 
@@ -29,14 +29,14 @@ get_genid_neighbor_info <- function() {
   neighbor_fastas_filename <- file.path(output_folder, "neighbor_protein_fasta_sequences.fa")
 
   # Create output folder if it doesn't exist
-  rutils:::make_folder_if_not_exists(output_folder)
+  rutils:::make_dir_if_not_exist(dir_path = output_folder)
 
   # --- Retrieve or Cache Neighbor Gene IDs ---
   if (use_cache && file.exists(cached_neighbor_geneids_file)) {
     log_info("Loading cached neighbor gene ids from {cached_neighbor_geneids_file}")
     neighbor_gene_ids <- read_json(cached_neighbor_geneids_file, simplifyVector = TRUE)
   } else {
-    all_geneids <- get_gene_ids_of_shortname(shortname = "ArfB")
+    all_geneids <- get_gene_ids_of_shortname(shortname = shortname)
     n <- if (identical(num_allgeneids, "all")) length(all_geneids) else min(num_allgeneids, length(all_geneids))
     gene_infos <- get_gene_list_info(all_geneids[seq_len(n)])
 
@@ -114,4 +114,3 @@ get_genid_neighbor_info <- function() {
 
   log_info("Processing complete, run InterProScan then move to final logic pt 2")
 }
-
