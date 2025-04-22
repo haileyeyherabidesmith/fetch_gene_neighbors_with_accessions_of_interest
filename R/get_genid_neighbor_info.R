@@ -20,7 +20,7 @@ get_genid_neighbor_info <- function() {
   # Dataset Configuration
   do_small_dataset <- FALSE # TRUE for small dataset, FALSE for large
   output_folder <- if (do_small_dataset) "data_small" else "data"
-  num_arfbgeneids <- if (do_small_dataset) 10 else "all"
+  num_allgeneids <- if (do_small_dataset) 10 else "all"
 
   # File paths for caching and outputs
   cached_neighbor_geneids_file <- file.path(output_folder, "neighbor_gene_ids_cache.json")
@@ -36,14 +36,14 @@ get_genid_neighbor_info <- function() {
     log_info("Loading cached neighbor gene ids from {cached_neighbor_geneids_file}")
     neighbor_gene_ids <- read_json(cached_neighbor_geneids_file, simplifyVector = TRUE)
   } else {
-    arfb_geneids <- get_arfb_gene_ids()
-    n <- if (identical(num_arfbgeneids, "all")) length(arfb_geneids) else min(num_arfbgeneids, length(arfb_geneids))
-    arfb_gene_infos <- get_gene_list_info(arfb_geneids[seq_len(n)])
+    all_geneids <- get_gene_ids_of_shortname(shortname = "ArfB")
+    n <- if (identical(num_allgeneids, "all")) length(all_geneids) else min(num_allgeneids, length(all_geneids))
+    gene_infos <- get_gene_list_info(all_geneids[seq_len(n)])
 
     neighbor_gene_ids <- list()
-    for (i in seq_along(arfb_gene_infos)) {
-      log_info("Processing gene info {i} of {length(arfb_gene_infos)}")
-      gene_neighbor_infos <- get_gene_neighbors(arfb_gene_infos[[i]]$uid)
+    for (i in seq_along(gene_infos)) {
+      log_info("Processing gene info {i} of {length(gene_infos)}")
+      gene_neighbor_infos <- get_gene_neighbors(gene_infos[[i]]$uid)
       for (info in gene_neighbor_infos) {
         neighbor_gene_ids <- c(neighbor_gene_ids, info$uid)
       }
