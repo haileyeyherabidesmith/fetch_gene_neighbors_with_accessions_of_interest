@@ -137,13 +137,13 @@ get_pfamid_shortname_pairs <- function(short_names) {
   return(pfamid_shortname_pairs) # nolint: return_linter.
 }
 
-get_arfb_gene_ids <- function(batch_size = 500, retmax = 10) {
+get_gene_ids_of_shortname <- function(batch_size = 500, retmax = 10, shortname = shortname) {
   # Initial search to get the total number of results
-  initial_search <- entrez_search(db = "gene", term = "ArfB[Gene Name]", retmax = retmax)
+  initial_search <- entrez_search(db = "gene", term = paste(shortname, "[Gene Name]"), retmax = retmax)
   total_results <- initial_search$count
 
   if (total_results == 0) {
-    stop("No ArfB genes found.")
+    stop(c("No ", shortname, " genes found."))
   }
 
 
@@ -155,7 +155,7 @@ get_arfb_gene_ids <- function(batch_size = 500, retmax = 10) {
 
     batch_results <- entrez_search(
       db = "gene",
-      term = "ArfB[Gene Name]",
+      term = shortname,
       retmax = batch_size,
       retstart = start
     )
