@@ -1,0 +1,12 @@
+Package: fetchGeneNeighborsWithAccessionsOfInterest
+Title: Fetches Gene Neighbors with Accessions of Interest
+Version: 0.0.0.9000
+Authors@R:
+    person("Hailey", "Smith", , "hailey.eyherabide.smith@gmail.com", role = c("aut", "cre"))
+Description: Fetches gene neighbors with accessions of interest from the NCBI database.
+    This package provides functions to retrieve gene neighbors and their associated
+    accessions, allowing users to explore genomic regions of interest.
+License: MIT + file LICENSE
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.3.2

@@ -1,21 +1,22 @@
 library(jsonlite)
-source("utils.r")
-
+library(rutils)
+output_folder <- "data_small"
+rutils::make_dir_if_not_exist(dir_path = output_folder)
 full_details_genes_of_interest_file <- file.path(output_folder, "full_details_genes_of_interest.json")
 final_genes_of_interest_file <- file.path(output_folder, "final_genes_of_interest.json")
 geneid_sequence_list_file <- file.path(output_folder, "geneid_sequence_list.json")
-accessions_of_interest_file <- file.path(output_folder, "interprolocal_accessions_nuclease.json")
+accessions_of_interest_file <- file.path(output_folder, "nuclease_interpro_accessions.json")
 neighbor_protein_ipr_info_file <- file.path(output_folder, "neighbor_protein_fasta_sequences.fa.json")
 
 gene_id_sequences <- read_json(geneid_sequence_list_file, simplifyVector = TRUE)
 accessions_of_interest <- read_json(accessions_of_interest_file, simplifyVector = TRUE)
-arfb_neighbors_info <- read_json(neighbor_protein_ipr_info_file, simplifyVector = FALSE)
+neighbors_info <- read_json(neighbor_protein_ipr_info_file, simplifyVector = FALSE)
 
 interesting_accessions_list <- list()
 
-for (i in seq_along(arfb_neighbors_info$results)) {
+for (i in seq_along(neighbors_info$results)) {
   # Extract the sequence and matches for each result
-  result <- arfb_neighbors_info$results[[i]]
+  result <- neighbors_info$results[[i]]
   result_sequence <- result$sequence # Extract the sequence at the result level
   for (match_i in seq_along(result$matches)) {
     match <- result$matches[[match_i]]

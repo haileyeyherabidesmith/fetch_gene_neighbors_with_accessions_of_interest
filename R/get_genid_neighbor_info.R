@@ -103,7 +103,7 @@ get_geneid_neighbor_info <- function(shortname) {
     writeLines(fasta, neighbor_fastas_file)
 
     # Extract the sequence (excluding the header) and add to mapping
-    fasta_lines <- strsplit(fasta, "\n")[]
+    fasta_lines <- strsplit(fasta, "\n")[[1]]
     sequence <- paste(fasta_lines[-1], collapse = "")
     geneid_sequence_list[[sequence]] <- gene_id
   }
